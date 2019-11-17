@@ -25,7 +25,9 @@ function calculateVolLifePricePerRole(role, coverageLevel, costs) {
 
 function calculateVolLifePrice(product, selectedOptions) {
   let price = 0
-  const { familyMembersToCover } = selectedOptions
+  const {
+    familyMembersToCover
+  } = selectedOptions
 
   familyMembersToCover.forEach((role) => {
     price += calculateVolLifePricePerRole(role, selectedOptions.coverageLevel, product.costs)
@@ -36,7 +38,9 @@ function calculateVolLifePrice(product, selectedOptions) {
 
 function calculateLTDPrice(product, employee, selectedOptions) {
   var price = 0
-  const { familyMembersToCover } = selectedOptions
+  const {
+    familyMembersToCover
+  } = selectedOptions
 
   if (familyMembersToCover.includes('ee')) {
     const eeCoverage = product.coverage.find(coverage => {
@@ -73,4 +77,11 @@ function calculateProductPrice(product, employee, selectedOptions) {
   }
 }
 
-module.exports = { calculateProductPrice }
+module.exports = {
+  calculateProductPrice,
+  formatPrice,
+  getEmployerContribution,
+  calculateVolLifePricePerRole,
+  calculateVolLifePrice,
+  calculateLTDPrice
+}
