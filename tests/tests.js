@@ -1,5 +1,7 @@
 const chai = require('chai')
 const {
+  beforeEach,
+  afterEach,
   describe,
   it
 } = require('mocha')
@@ -135,9 +137,31 @@ describe('calculateLTDPrice', () => {
   })
 })
 
+describe('calculateCommuterPrice', () => {
+  it('returns price for train commuter plan', () => {
+    const selectedOptions = {
+      benefit: 'train'
+    }
+
+    const price = pricing.calculateCommuterPrice(products.commuter, employee, selectedOptions)
+
+    expect(price).to.equal(9.75)
+  })
+
+  it('returns price for parking commuter plan', () => {
+    const selectedOptions = {
+      benefit: 'parking'
+    }
+
+    const price = pricing.calculateCommuterPrice(products.commuter, employee, selectedOptions)
+
+    expect(price).to.equal(175)
+  })
+})
+
 describe('calculateProductPrice', () => {
 
-  let sandbox, calculateVolLifePriceSpy, getEmployerContributionSpy, formatPriceSpy, calculateLTDPriceSpy
+  let sandbox, calculateVolLifePriceSpy, getEmployerContributionSpy, formatPriceSpy, calculateLTDPriceSpy, calculateCommuterPriceSpy
 
   beforeEach(() => {
     sandbox = sinon.createSandbox()
@@ -145,6 +169,7 @@ describe('calculateProductPrice', () => {
     calculateLTDPriceSpy = sandbox.spy(pricing, 'calculateLTDPrice')
     getEmployerContributionSpy = sandbox.spy(pricing, 'getEmployerContribution')
     formatPriceSpy = sandbox.spy(pricing, 'formatPrice')
+    calculateCommuterPriceSpy = sandbox.spy(pricing, 'calculateCommuterPrice')
   })
 
   afterEach(() => {
@@ -199,6 +224,32 @@ describe('calculateProductPrice', () => {
 
     expect(price).to.equal(22.04)
     expect(calculateLTDPriceSpy).to.have.callCount(1)
+    expect(getEmployerContributionSpy).to.have.callCount(1)
+    expect(formatPriceSpy).to.have.callCount(1)
+  })
+
+  it('returns the price for a train commuter plan', () => {
+    const selectedOptions = {
+      benefit: 'train'
+    }
+
+    const price = pricing.calculateProductPrice(products.commuter, employee, selectedOptions)
+
+    expect(price).to.equal(9.75)
+    expect(calculateCommuterPriceSpy).to.have.callCount(1)
+    expect(getEmployerContributionSpy).to.have.callCount(1)
+    expect(formatPriceSpy).to.have.callCount(1)
+  })
+
+  it('returns the price for a parking commuter plan', () => {
+    const selectedOptions = {
+      benefit: 'parking'
+    }
+
+    const price = pricing.calculateProductPrice(products.commuter, employee, selectedOptions)
+
+    expect(price).to.equal(175)
+    expect(calculateCommuterPriceSpy).to.have.callCount(1)
     expect(getEmployerContributionSpy).to.have.callCount(1)
     expect(formatPriceSpy).to.have.callCount(1)
   })
