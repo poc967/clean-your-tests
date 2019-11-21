@@ -140,22 +140,22 @@ describe('calculateLTDPrice', () => {
 describe('calculateCommuterPrice', () => {
   it('returns price for train commuter plan', () => {
     const selectedOptions = {
-      benefit: 'train'
+      type: 'train'
     }
 
-    const price = pricing.calculateCommuterPrice(products.commuter, employee, selectedOptions)
+    const price = pricing.calculateCommuterPrice(products.commuter, selectedOptions)
 
-    expect(price).to.equal(9.75)
+    expect(price).to.equal(84.75)
   })
 
   it('returns price for parking commuter plan', () => {
     const selectedOptions = {
-      benefit: 'parking'
+      type: 'parking'
     }
 
-    const price = pricing.calculateCommuterPrice(products.commuter, employee, selectedOptions)
+    const price = pricing.calculateCommuterPrice(products.commuter, selectedOptions)
 
-    expect(price).to.equal(175)
+    expect(price).to.equal(250)
   })
 })
 
@@ -230,7 +230,7 @@ describe('calculateProductPrice', () => {
 
   it('returns the price for a train commuter plan', () => {
     const selectedOptions = {
-      benefit: 'train'
+      type: 'train'
     }
 
     const price = pricing.calculateProductPrice(products.commuter, employee, selectedOptions)
@@ -243,7 +243,7 @@ describe('calculateProductPrice', () => {
 
   it('returns the price for a parking commuter plan', () => {
     const selectedOptions = {
-      benefit: 'parking'
+      type: 'parking'
     }
 
     const price = pricing.calculateProductPrice(products.commuter, employee, selectedOptions)
